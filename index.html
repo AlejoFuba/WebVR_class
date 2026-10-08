@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museo VR Clase</title>
+    <!-- libreria aframe -->
+    <script src="https://aframe.io/releases/1.8.0/aframe.min.js"></script>
+</head>
+<body>
+    <!-- aqui van los recursos del proyecto  -->
+    <a-assets>
+        <img src="./assets/Piso.jpg" id="piso">
+        <img src="./assets/Muros.jpg" id="muros">
+        <img src="./assets/Techo.jpg" id="techo">
+    </a-assets>
+    <!-- escena del proyecto VR -->
+    <a-scene xr-mode-ui="enterAREnabled: false">
+        <!-- camara de la escena  -->
+        <a-entity camera look-controls position="0 1.6 2.5"></a-entity>
+
+        <!-- 
+        ---------------------------
+                ESTRUCTURA 
+        ---------------------------
+        -->
+        <!-- Piso -->
+        <a-plane src="#piso" material="repeat: 5 5; roughness: 0.3" rotation="-90 0 0" width="10" height="10"></a-plane>
+        <!-- Muro fondo -->
+        <a-plane src="#muros" material="repeat: 3 3; roughness: 0.8" geometry="height: 4; width: 10" position="0 2 -5"></a-plane>
+        <!-- Muro Izquierda -->
+        <a-plane src="#muros" material="repeat: 3 3; roughness: 0.8" geometry="height: 4; width: 10" position="-5 2 0" rotation="0 90 0"></a-plane>
+        <!-- Muro Derecha -->
+        <a-plane src="#muros" material="repeat: 3 3; roughness: 0.8" geometry="height: 4; width: 10" position="5 2 0" rotation="0 -90 0"></a-plane>
+        <!-- Muro frente -->
+        <a-plane src="#muros" material="repeat: 3 3; roughness: 0.8" geometry="height: 4; width: 10" position="0 2 5" rotation="0 180 0"></a-plane>
+        <!-- Techo -->
+        <a-plane src="#techo" material="repeat: 3 3; metalness: 0.3; roughness: 0.2" position="0 4 0" rotation="90 0 0" width="10" height="10"></a-plane>
+        
+        <!-- 
+        ---------------------------
+                OBRAS Y MODELOS
+        ---------------------------
+        -->
+        <a-plane geometry="height: 3; width: 2" position="-2.5 2 -4.9"></a-plane>
+        <a-plane geometry="height: 3; width: 2" position="0 2 -4.9"></a-plane>
+        <a-plane geometry="height: 3; width: 2" position="2.5 2 -4.9"></a-plane>
+        <a-box position="-3.5 0.5 0"></a-box>
+        <a-tetrahedron position="2.8 3.2 -2"></a-tetrahedron>
+        <a-plane geometry="height: 3; width: 2" position="-4.9 2 2.5" rotation="0 90 0"></a-plane>
+        <a-plane geometry="height: 3; width: 2" position="-4.9 2 0" rotation="0 90 0"></a-plane>
+        <a-plane geometry="height: 3; width: 2" position="-4.9 2 -2.5" rotation="0 90 0"></a-plane>
+        <a-torus-knot position="3.5 1.1 2.3" scale="0.5 0.5 0.5"></a-toru-knot>
+    </a-scene>
+</body>
+</html>
