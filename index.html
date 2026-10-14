@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Museo VR Clase</title>
+    <title>Banksy - Museo VR</title>
     <!-- libreria aframe -->
     <script src="https://aframe.io/releases/1.8.0/aframe.min.js"></script>
 </head>
@@ -13,6 +13,12 @@
         <img src="./assets/Piso.jpg" id="piso">
         <img src="./assets/Muros.jpg" id="muros">
         <img src="./assets/Techo.jpg" id="techo">
+        <!-- Obras -->
+         <img src="./assets/Anti-ImmigrationBirds.jpg" id="Anti-ImmigrationBirds">
+         <img src="./assets/BombHugger.jpg" id="BombHugger">
+         <!-- modelos 3d -->
+        <a-assets-item id="cuadro" src="./assets/banksy.glb"></a-assets-item>
+        <a-assets-item id="vandalized" src="./assets/vandalized_3d.glb"></a-assets-item>
     </a-assets>
     <!-- escena del proyecto VR -->
     <a-scene xr-mode-ui="enterAREnabled: false">
@@ -27,13 +33,13 @@
         <!-- Piso -->
         <a-plane src="#piso" material="repeat: 5 5; roughness: 0.3" rotation="-90 0 0" width="10" height="10"></a-plane>
         <!-- Muro fondo -->
-        <a-plane src="#muros" material="repeat: 3 3; roughness: 0.8" geometry="height: 4; width: 10" position="0 2 -5"></a-plane>
+        <a-plane src="#muros" material="repeat: 3 3; roughness: 1" geometry="height: 4; width: 10" position="0 2 -5"></a-plane>
         <!-- Muro Izquierda -->
-        <a-plane src="#muros" material="repeat: 3 3; roughness: 0.8" geometry="height: 4; width: 10" position="-5 2 0" rotation="0 90 0"></a-plane>
+        <a-plane src="#muros" material="repeat: 3 3; roughness: 1" geometry="height: 4; width: 10" position="-5 2 0" rotation="0 90 0"></a-plane>
         <!-- Muro Derecha -->
-        <a-plane src="#muros" material="repeat: 3 3; roughness: 0.8" geometry="height: 4; width: 10" position="5 2 0" rotation="0 -90 0"></a-plane>
+        <a-plane src="#muros" material="repeat: 3 3; roughness: 1" geometry="height: 4; width: 10" position="5 2 0" rotation="0 -90 0"></a-plane>
         <!-- Muro frente -->
-        <a-plane src="#muros" material="repeat: 3 3; roughness: 0.8" geometry="height: 4; width: 10" position="0 2 5" rotation="0 180 0"></a-plane>
+        <a-plane src="#muros" material="repeat: 3 3; roughness: 1" geometry="height: 4; width: 10" position="0 2 5" rotation="0 180 0"></a-plane>
         <!-- Techo -->
         <a-plane src="#techo" material="repeat: 3 3; metalness: 0.3; roughness: 0.2" position="0 4 0" rotation="90 0 0" width="10" height="10"></a-plane>
         
@@ -42,15 +48,29 @@
                 OBRAS Y MODELOS
         ---------------------------
         -->
-        <a-plane geometry="height: 3; width: 2" position="-2.5 2 -4.9"></a-plane>
-        <a-plane geometry="height: 3; width: 2" position="0 2 -4.9"></a-plane>
+        <a-plane src="#BombHugger" geometry="height: 1; width: 0.42" position="-3 1.2 -4.9" scale="2.5 2.5 2.5"></a-plane>
+        <!-- Anti-ImmigrationBirds -->
+        <a-plane src="#Anti-ImmigrationBirds" geometry="height: 0.61; width: 1" position="0 2.5 -4.9" scale="3 3 3"></a-plane>
         <a-plane geometry="height: 3; width: 2" position="2.5 2 -4.9"></a-plane>
         <a-box position="-3.5 0.5 0"></a-box>
         <a-tetrahedron position="2.8 3.2 -2"></a-tetrahedron>
-        <a-plane geometry="height: 3; width: 2" position="-4.9 2 2.5" rotation="0 90 0"></a-plane>
+        <!-- cuadro banksy -->
+        <a-entity gltf-model="#cuadro" position="-4.9 2 2.5" rotation="90 90 0"></a-entity>
+        <!-- <a-plane geometry="height: 3; width: 2" position="-4.9 2 2.5" rotation="0 90 0"></a-plane> -->
         <a-plane geometry="height: 3; width: 2" position="-4.9 2 0" rotation="0 90 0"></a-plane>
         <a-plane geometry="height: 3; width: 2" position="-4.9 2 -2.5" rotation="0 90 0"></a-plane>
-        <a-torus-knot position="3.5 1.1 2.3" scale="0.5 0.5 0.5"></a-toru-knot>
+        <a-entity gltf-model="#vandalized" position="4.3 0 -3.8" scale="0.03 0.03 0.03" rotation="0 -90 0"></a-entity>
+        <!-- 
+        ---------------------------
+                Luces
+        ---------------------------
+        -->
+        <!-- ambiente escena   -->
+        <a-light position="0 2.2 0" light="type: ambient; intensity: 1; color: #c0d6dd"></a-light>
+        <a-cylinder position="-2.7 3.9 -4.3" scale="0.1 0.05 0.1" material="emissive: #ffffff; emissiveIntensity: 3"></a-cylinder>
+        <a-light rotation="-45 0 0" position="-3 4 -4" light="type: spot; intensity: 3.2; distance: 5.3; decay: 0.02; penumbra: 0.27; angle: 38.4"></a-light>
+        <a-cylinder position="4.1 3.9 -3.5" scale="0.1 0.05 0.1" material="emissive: #ffffff; emissiveIntensity: 3"></a-cylinder>
+        <a-light rotation="-78.8 -90 0" position="3.6 3.6 -3.7" light="angle: 15.5; decay: -0.09; distance: 5.9; intensity: 4; penumbra: 0.2; type: spot"></a-light>
     </a-scene>
 </body>
 </html>
