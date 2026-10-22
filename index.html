@@ -8,6 +8,8 @@
     <script src="https://aframe.io/releases/1.8.0/aframe.min.js"></script>
     <!-- componente interactivo -->
     <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
+    <!-- componente troika para fuentes tipograficas  -->
+    <script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script>
 </head>
 <body>
     <!-- aqui van los recursos del proyecto  -->
@@ -24,6 +26,8 @@
          <!-- modelos 3d -->
         <a-assets-item id="cuadro" src="./assets/banksy.glb"></a-assets-item>
         <a-assets-item id="vandalized" src="./assets/vandalized_3d.glb"></a-assets-item>
+        <!-- fuente  -->
+         <a-assets-item id="font" src="./assets/GrimeSlime-Regular.ttf"></a-assets-item>
     </a-assets>
     <!-- escena del proyecto VR -->
     <a-scene xr-mode-ui="enterAREnabled: false">
@@ -59,7 +63,7 @@
         <a-plane src="#BombHugger" geometry="height: 1; width: 0.42" position="-3 1.2 -4.9" scale="2.5 2.5 2.5" material="transparent: true"
             event-set__enter="_event: mouseenter; _target: #BombHuggerText; visible: true"
             event-set__leave="_event: mouseleave; _target: #BombHuggerText; visible: false">
-            <a-text id="BombHuggerText" value="BombHugger" align="center" visible="false" color="#3d3d3d" position="0 0.6 0" text="width: 3"></a-text>
+            <a-text troika-text="font: #font; value: BombHugger" id="BombHuggerText" align="center" position="0 0.6 0" visible="false"></a-text>
         </a-plane>
         <!-- Anti-ImmigrationBirds -->
         <a-plane src="#Anti-ImmigrationBirds" geometry="height: 0.61; width: 0.75" position="0 2.5 -4.9" scale="3 3 3" material="transparent: true"
