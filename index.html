@@ -4,34 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Banksy - Museo VR</title>
+    <link rel="stylesheet" href="./css/style.css">
     <!-- libreria aframe -->
     <script src="https://aframe.io/releases/1.8.0/aframe.min.js"></script>
     <!-- componente interactivo -->
     <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
+    <!-- componentes audio js -->
+    <script src="./js/audio-component.js"></script>
+    <!-- componente teleport -->
+    <script src="./js/teleport-component.js"></script>
+    <!-- componente silencio audio -->
+     <script src="./js/silent-component.js"></script>
 </head>
 <body>
-    <!-- aqui van los recursos del proyecto  -->
+    <!-- 
+      -------------------------
+              Assets
+    ----------------------------  
+    -->
     <a-assets>
         <img src="./assets/Piso.jpg" id="piso">
         <img src="./assets/Muros.jpg" id="muros">
         <img src="./assets/Techo.jpg" id="techo">
+        <img src="./assets/banksy_logo.png" id="logo">
         <!-- Obras -->
          <img src="./assets/Anti-ImmigrationBirds.png" id="Anti-ImmigrationBirds">
          <img src="./assets/BombHugger.png" id="BombHugger">
          <img src="./assets/KissingCoppers.png" id="KissingCoppers">
          <img src="./assets/SnortingCopper.png" id="SnortingCopper">
-         <img src="./assets/TheSonofaMigrantfromSyria.jpg" id="TheSonofaMigrantfromSyria">
+         <img src="./assets/TheSonofaMigrantfromSyria.png" id="TheSonofaMigrantfromSyria">
          <!-- modelos 3d -->
         <a-assets-item id="cuadro" src="./assets/banksy.glb"></a-assets-item>
         <a-assets-item id="vandalized" src="./assets/vandalized_3d.glb"></a-assets-item>
+        <!-- iconos -->
+         <img id="icono-audio" src="./assets/icono-audio.png">
+         <img id="icono-detener" src="./assets/icono-detener.png">
+         <img id="icono-cerrar" src="./assets/icono-cerrar.png">
+         <img id="icono-musica" src="./assets/icono-musica.png">
+         <img id="icono-silencio" src="./assets/icono-silencio.png">
+         <!-- audio -->
+          <audio id="Audio-kissingcooper" src="./assets/Audios/Audio_kissingCooper.mp3" preload="auto"></audio>
+          <audio id="Audio-BombHugger" src="./assets/Audios/Audio_BombHugger.mp3" preload="auto"></audio>
+          <audio id="Audio-Anti-ImmigrationBird" src="./assets/Audios/Audio_AntiImmigrationBirds.mp3" preload="auto"></audio>
+          <audio id="musica-ambiente" src="./assets/Audios/musica-ambiente.mp3" preload="auto"></audio>
     </a-assets>
     <!-- escena del proyecto VR -->
     <a-scene xr-mode-ui="enterAREnabled: false">
         <!-- camara de la escena  -->
-        <a-entity camera look-controls position="0 1.6 2.5">
+         <a-entity id="rig" position="0 0 0">
+          <a-entity id="camera" camera look-controls position="0 1.6 2.5">
             <!-- cursor para activar la interacción -->
-            <a-cursor fuse="true" fuse-tiomeout="1500"></a-cursor>
+            <a-cursor fuse="true" fuse-tiomeout="1500"
+              raycaster="objects: .clicable; far: 15"
+              material="color: #FFFFFF; shader: flat"
+              animation__fusing="property: scale; startEvents: fusing; from: 1 1 1; to: 0.2 0.2 0.2; dur: 1500; easing: linear"
+              animation__salir="property: scale; startEvents: mouseleave; to: 1 1 1; dur: 200"
+              animation__clic="property: scale; startEvents: click; from: 0.2 0.2 0.2; to: 1 1 1; dur: 200">
+            </a-cursor>
         </a-entity>
+         </a-entity>
+        
+        <!-- 
+        ----------------------------------------
+              musica ambiente 
+        ---------------------------------------
+        -->
+        <a-entity id="musica" sound="src: #musica-ambiente; loop: true; positional: false; volume: 0.2"></a-entity>
 
         <!-- 
         ---------------------------
@@ -51,45 +89,104 @@
         <!-- Techo -->
         <a-plane src="#techo" material="repeat: 3 3; metalness: 0.3; roughness: 0.2" position="0 4 0" rotation="90 0 0" width="10" height="10"></a-plane>
         
+        <a-plane src="#logo" material="transparent: true" geometry="height: 0.5" position="0 2 4.9" rotation="0 180 0" scale="5 5 5"></a-plane>
         <!-- 
         ---------------------------
                 OBRAS Y MODELOS
         ---------------------------
         -->
-        <a-plane src="#BombHugger" geometry="height: 1; width: 0.42" position="-3 1.2 -4.9" scale="2.5 2.5 2.5" material="transparent: true"
+        <a-plane class="clicable" src="#BombHugger" geometry="height: 1; width: 0.42" position="-3 1.2 -4.9" scale="2.5 2.5 2.5" material="transparent: true"
             event-set__enter="_event: mouseenter; _target: #BombHuggerText; visible: true"
             event-set__leave="_event: mouseleave; _target: #BombHuggerText; visible: false">
             <a-text id="BombHuggerText" value="BombHugger" align="center" visible="false" color="#3d3d3d" position="0 0.6 0" text="width: 3"></a-text>
+            <a-plane id="boton" class="clicable" src="#icono-audio"
+              sound="refDistance: 2; src: #Audio-BombHugger" 
+              boton-audio 
+              animation__entrar="dur: 200; property: scale; startEvents: mouseenter; to: 1.15 1.15 1.15" 
+              animation__salir="dur: 200; property: scale; startEvents: mouseleave; to: 1 1 1" 
+              material="transparent: true; color: #383838;" geometry="height: 0.1; width: 0.1" 
+              position="0.28 0 0">
+            </a-plane>
         </a-plane>
         <!-- Anti-ImmigrationBirds -->
-        <a-plane src="#Anti-ImmigrationBirds" geometry="height: 0.61; width: 0.75" position="0 2.5 -4.9" scale="3 3 3" material="transparent: true"
+        <a-plane class="clicable" src="#Anti-ImmigrationBirds" geometry="height: 0.61; width: 0.75" position="0 2.5 -4.9" scale="3 3 3" material="transparent: true"
             event-set__enter="_event: mouseenter; _target: #Anti-ImmigrationBirdsText; visible: true"
             event-set__leave="_event: mouseleave; _target: #Anti-ImmigrationBirdsText; visible: false">
             <a-text id="Anti-ImmigrationBirdsText" value="Anti Immigration Birds" align="center" visible="false" color="#3d3d3d" position="0 -0.4 0" text="width: 2"></a-text>
+            <a-plane id="boton" class="clicable" src="#icono-audio"
+              sound="refDistance: 2; src: #Audio-Anti-ImmigrationBird" 
+              boton-audio 
+              animation__entrar="dur: 200; property: scale; startEvents: mouseenter; to: 1.15 1.15 1.15" 
+              animation__salir="dur: 200; property: scale; startEvents: mouseleave; to: 1 1 1" 
+              material="transparent: true; color: #383838;" geometry="height: 0.1; width: 0.1" 
+              position="0.21 -0.51 0.1">
+            </a-plane>
         </a-plane>
         <!-- KissingCoppers -->
-        <a-plane src="#KissingCoppers" geometry="height: 1; width: 0.7" position="2.8 1.5 -4.9" scale="3 3 3" material="transparent: true"
+        <a-plane class="clicable" src="#KissingCoppers" geometry="height: 1; width: 0.7" position="2.8 1.5 -4.9" scale="3 3 3" material="transparent: true"
             event-set__enter="_event: mouseenter; _target: #KissingCoppersText; visible: true"
             event-set__leave="_event: mouseleave; _target: #KissingCoppersText; visible: false">
             <a-text id="KissingCoppersText" value="Kissing Coppers" align="center" visible="false" color="#3d3d3d" position="0 0.6 0" text="width: 2"></a-text>
+            <!-- audio icon y reproducción -->
+            <a-plane id="boton" class="clicable" src="#icono-audio"
+              sound="refDistance: 2; src: #Audio-kissingcooper" 
+              boton-audio 
+              animation__entrar="dur: 200; property: scale; startEvents: mouseenter; to: 1.15 1.15 1.15" 
+              animation__salir="dur: 200; property: scale; startEvents: mouseleave; to: 1 1 1" 
+              material="transparent: true; color: #383838;" geometry="height: 0.1; width: 0.1" 
+              position="0.21 -0.04 0.1">
+            </a-plane>
         </a-plane>
-        <a-box position="-3.5 0.5 0"></a-box>
-        <!-- <a-tetrahedron position="2.8 3.2 -2"></a-tetrahedron> -->
         <!-- cuadro banksy -->
         <a-entity gltf-model="#cuadro" position="-4.9 2 2.5" rotation="90 90 0"></a-entity>
         <!-- <a-plane geometry="height: 3; width: 2" position="-4.9 2 2.5" rotation="0 90 0"></a-plane> -->
          <!-- SnortingCopper -->
-        <a-plane src="#SnortingCopper" geometry="height: 0.9" position="-4.9 1.1 -3.3" rotation="0 90 0" scale="3.2 3.2 3.2" material="transparent: true"
+        <a-plane class="clicable" src="#SnortingCopper" geometry="height: 0.9" position="-4.9 1.1 -3.3" rotation="0 90 0" scale="3.2 3.2 3.2" material="transparent: true"
             event-set__enter="_event: mouseenter; _target: #SnortingCopperText; visible: true"
             event-set__leave="_event: mouseleave; _target: #SnortingCopperText; visible: false">
             <a-text id="SnortingCopperText" value="Snorting Copper" align="center" color="#3d3d3d" position="0 0.6 0.2" text="width: 2" rotation="0 -39.5 0" visible="false"></a-text>
+            <a-plane height="0.2" width="10" rotation="-90 -90 0" position="0 -0.33 1.25" material="emissive: #ffffff" geometry="height: 0.1; width: 2.42"></a-plane>
         </a-plane>
+        
         <a-plane geometry="height: 3; width: 2" position="-4.9 2 0.05" rotation="0 90 0"></a-plane>
         <a-entity gltf-model="#vandalized" position="4.7 0.1 -3" scale="0.05 0.05 0.05" rotation="0 -90 0"></a-entity>
-        <!-- jobs -->
-        <a-plane geometry="height: 3; width: 2" position="4.9 1.4 1.4" rotation="0 -90 0"></a-plane>
+        <!-- TheSonofaMigrantfromSyria -->
+        <a-plane class="clicable" src="#TheSonofaMigrantfromSyria" geometry="height: 0.8" position="4.9 1.4 2.029" rotation="0 -90 0" material="alphaTest: 0.5; transparent: true" scale="3.54 3.54 3.54"
+            event-set__enter="_event: mouseenter; _target: #TheSonofaMigrantfromSyriaText; visible: true"
+            event-set__leave="_event: mouseleave; _target: #TheSonofaMigrantfromSyriaText; visible: false">
+            <a-text id="TheSonofaMigrantfromSyriaText" value="The Son of a Migrant from Syria" align="center" color="#3d3d3d" position="0 0.451 0" text="width: 1.2" visible="false"></a-text>
+        </a-plane>
 
 
+        <!-- 
+        -------------------------
+                teleport 
+        -------------------------
+        -->
+        <!-- port 1 -->
+        <a-circle class="clicable" punto-teleport scale="0.4 0.4 0.4" position="2.3 0.1 -2.1" rotation="-90 0 0" material="emissive: #53eac4; emissiveIntensity: 2"
+                animation__entrar="property: scale; startEvents: mouseenter; to: 0.6 0.6 0.6; dur: 200"
+                animation__salir="property: scale; startEvents: mouseleave; to: 0.4 0.4 0.4; dur: 200">
+        </a-circle>
+        <!-- port 2 -->
+        <a-circle class="clicable" punto-teleport scale="0.4 0.4 0.4" position="0.09 0.1 2.0" rotation="-90 0 0" material="emissive: #53eac4; emissiveIntensity: 2"
+                animation__entrar="property: scale; startEvents: mouseenter; to: 0.6 0.6 0.6; dur: 200"
+                animation__salir="property: scale; startEvents: mouseleave; to: 0.4 0.4 0.4; dur: 200">
+        </a-circle>
+        <!-- port 3 -->
+        <a-circle class="clicable" punto-teleport scale="0.4 0.4 0.4" position="-2.3 0.1 -2.2" rotation="-90 0 0" material="emissive: #53eac4; emissiveIntensity: 2"
+                animation__entrar="property: scale; startEvents: mouseenter; to: 0.6 0.6 0.6; dur: 200"
+                animation__salir="property: scale; startEvents: mouseleave; to: 0.4 0.4 0.4; dur: 200">
+        </a-circle>
+        <!-- fundido a negro  -->
+        <a-plane id="fundido" position="0 0 -0.2" width="2" height="2"
+          material="shader: flat; color: #000; transparent: true; opacity: 0; depthTest: false"
+          animation__oscurecer="property: material.opacity; from: 0; to: 1; dur: 200; startEvents: oscurecer"
+          animation__aclarar="property: material.opacity; from: 1; to: 0; dur: 250; startEvents: aclarar">
+        </a-plane>
+
+        <a-plane class="clicable" boton-musica src="#icono-musica"
+            position="1.976 1.2 4.8" rotation="0 -180 0" width="0.35" height="0.35" material="transparent: true"></a-plane>
         <!-- 
         ---------------------------
                 Luces
@@ -106,5 +203,24 @@
         <a-cylinder position="2.6 3.9 -4.3" scale="0.1 0.0 0.1" material="emissive: #ffffff; emissiveIntensity: 3"></a-cylinder>
         <a-light rotation="-45 0 0" position="2.7 4 -4" light="angle: 38.4; decay: 0.02; distance: 5.3; intensity: 3.2; penumbra: 0.27; type: spot"></a-light>
     </a-scene>
+
+    <button id="entrar">Toque para entrar</button>
+
+<script>
+  document.getElementById('entrar').addEventListener('click', function () {
+  THREE.AudioContext.getContext().resume();                        // 1. desbloquear el audio
+  document.querySelector('#musica').components.sound.playSound(); // 2. arrancar la música
+  this.remove();
+});
+
+var entro = false;   // poner en true dentro del clic de "Entrar"
+
+document.addEventListener('visibilitychange', function () {
+  var contexto = THREE.AudioContext.getContext();
+  if (document.hidden) { contexto.suspend(); }
+  else if (entro) { contexto.resume(); }
+});
+</script>
+
 </body>
 </html>
