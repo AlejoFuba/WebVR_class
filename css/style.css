@@ -1,2 +1,10 @@
-#entrar { position: fixed; inset: 0; z-index: 10; width: 100%; border: 0;
-          background: rgba(10, 14, 26, .92); color: #fff; font: 700 22px system-ui, sans-serif; }
+#entrar { 
+    position: fixed; 
+    inset: 0; 
+    z-index: 10; 
+    width: 100%; 
+    border: 0;
+    background: rgba(10, 14, 26, .92); 
+    color: #fff; 
+    font: 700 22px system-ui, sans-serif; 
+}
