@@ -9,9 +9,10 @@ AFRAME.registerComponent('punto-teleport', {
     var self = this;
     this.moviendo = false;
 
+    // Al completar la mirada sobre el punto
     this.el.addEventListener('click', function () { self.teletransportar(); });
 
-    // El punto donde estoy se apaga; los demás se encienden
+    // Todos los puntos escuchan: el punto donde estoy se apaga, los demás se encienden
     this.el.sceneEl.addEventListener('teleport-hecho', function (evt) {
       var esActual = evt.detail.punto === self.el;
       if (esActual) { self.el.classList.remove('clicable'); } else { self.el.classList.add('clicable'); }
@@ -22,12 +23,13 @@ AFRAME.registerComponent('punto-teleport', {
   teletransportar: function () {
     var self = this;
     var fundido = this.data.fundido;
-    if (this.moviendo) { return; }   // evita doble clic durante el fundido
+    if (this.moviendo) { return; }          // evita dobles clics durante el fundido
     this.moviendo = true;
 
+    // Sin plano de fundido: mover de una vez
     if (!fundido) { this.mover(); this.moviendo = false; return; }
 
-    // oscurecer → mover con la pantalla en negro → aclarar
+    // 1. oscurecer → 2. mover el rig con la pantalla en negro → 3. aclarar
     fundido.addEventListener('animationcomplete__oscurecer', function () {
       self.mover();
       fundido.emit('aclarar');
@@ -39,7 +41,7 @@ AFRAME.registerComponent('punto-teleport', {
   mover: function () {
     var destino = new THREE.Vector3();
     this.el.object3D.getWorldPosition(destino);
-    var cam = this.data.camara.object3D.position;
+    var cam = this.data.camara.object3D.position;   // desplazamiento de la cabeza dentro del rig
     this.data.rig.object3D.position.set(destino.x - cam.x, 0, destino.z - cam.z);
     this.el.sceneEl.emit('teleport-hecho', {punto: this.el});
   }
