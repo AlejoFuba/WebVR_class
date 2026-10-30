@@ -17,7 +17,11 @@
      <script src="./js/silent-component.js"></script>
 </head>
 <body>
-    <!-- 
+    
+    <!-- escena del proyecto VR -->
+    <a-scene xr-mode-ui="enterAREnabled: false">
+
+        <!-- 
       -------------------------
               Assets
     ----------------------------  
@@ -48,8 +52,8 @@
           <audio id="Audio-Anti-ImmigrationBird" src="./assets/Audios/Audio_AntiImmigrationBirds.mp3" preload="auto"></audio>
           <audio id="musica-ambiente" src="./assets/Audios/musica-ambiente.mp3" preload="auto"></audio>
     </a-assets>
-    <!-- escena del proyecto VR -->
-    <a-scene xr-mode-ui="enterAREnabled: false">
+
+
         <!-- camara de la escena  -->
          <a-entity id="rig" position="0 0 2.5">
           <a-entity id="camera" camera look-controls position="0 1.6 0">
