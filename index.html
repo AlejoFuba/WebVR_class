@@ -51,17 +51,17 @@
     <!-- escena del proyecto VR -->
     <a-scene xr-mode-ui="enterAREnabled: false">
         <!-- camara de la escena  -->
-         <a-entity id="rig" position="0 0 0">
-          <a-entity id="camera" camera look-controls position="0 1.6 2.5">
+         <a-entity id="rig" position="0 0 2.5">
+          <a-entity id="camera" camera look-controls position="0 1.6 0">
             <!-- cursor para activar la interacción -->
-            <a-cursor fuse="true" fuse-tiomeout="1500"
+            <a-cursor fuse="true" fuse-timeout="1500"
               raycaster="objects: .clicable; far: 15"
               material="color: #FFFFFF; shader: flat"
               animation__fusing="property: scale; startEvents: fusing; from: 1 1 1; to: 0.2 0.2 0.2; dur: 1500; easing: linear"
               animation__salir="property: scale; startEvents: mouseleave; to: 1 1 1; dur: 200"
               animation__clic="property: scale; startEvents: click; from: 0.2 0.2 0.2; to: 1 1 1; dur: 200">
             </a-cursor>
-        </a-entity>
+          </a-entity>
          </a-entity>
         
         <!-- 
