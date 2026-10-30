@@ -11,8 +11,6 @@
     <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
     <!-- componentes audio js -->
     <script src="./js/audio-component.js"></script>
-    <!-- componente teleport -->
-    <script src="./js/teleport-component.js"></script>
     <!-- componente silencio audio -->
      <script src="./js/silent-component.js"></script>
 </head>
@@ -65,6 +63,12 @@
               animation__salir="property: scale; startEvents: mouseleave; to: 1 1 1; dur: 200"
               animation__clic="property: scale; startEvents: click; from: 0.2 0.2 0.2; to: 1 1 1; dur: 200">
             </a-cursor>
+            <!-- fundido a negro  -->
+            <a-plane id="fundido" position="0 0 -0.2" width="20" height="20"
+              material="shader: flat; color: #000; transparent: true; opacity: 0; depthTest: false"
+              animation__oscurecer="property: material.opacity; from: 0; to: 1; dur: 200; startEvents: oscurecer"
+              animation__aclarar="property: material.opacity; from: 1; to: 0; dur: 250; startEvents: aclarar">
+            </a-plane>
           </a-entity>
          </a-entity>
         
@@ -182,12 +186,7 @@
                 animation__entrar="property: scale; startEvents: mouseenter; to: 0.6 0.6 0.6; dur: 200"
                 animation__salir="property: scale; startEvents: mouseleave; to: 0.4 0.4 0.4; dur: 200">
         </a-circle>
-        <!-- fundido a negro  -->
-        <a-plane id="fundido" position="0 0 -0.2" width="2" height="2"
-          material="shader: flat; color: #000; transparent: true; opacity: 0; depthTest: false"
-          animation__oscurecer="property: material.opacity; from: 0; to: 1; dur: 200; startEvents: oscurecer"
-          animation__aclarar="property: material.opacity; from: 1; to: 0; dur: 250; startEvents: aclarar">
-        </a-plane>
+        
 
         <a-plane class="clicable" boton-musica src="#icono-musica"
             position="1.976 1.2 4.8" rotation="0 -180 0" width="0.35" height="0.35" material="transparent: true"></a-plane>
@@ -225,6 +224,7 @@ document.addEventListener('visibilitychange', function () {
   else if (entro) { contexto.resume(); }
 });
 </script>
-
+<!-- componente teleport -->
+    <script src="./js/teleport-component.js"></script>
 </body>
 </html>
